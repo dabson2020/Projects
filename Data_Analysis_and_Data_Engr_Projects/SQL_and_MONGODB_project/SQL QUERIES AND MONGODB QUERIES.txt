@@ -1,0 +1,1264 @@
+SQL QUERIES TO MONGO DB QUERIES
+
+Question 1
+Show the highest number of confirmed coronavirus cases the world has recorded daily. 
+Return a table with a record of 10 highest number of confirmed coronavirus cases in the 
+world to date and do not display the affected countries.
+
+ANSWER
+SQL QUERIES
+SELECT ca.occurred_at, ca.confirmed_case
+FROM Cases ca
+ORDER BY confirmed_case DESC
+LIMIT 10
+
+MONGO DB QUERIES
+
+database = client["Covid"]
+collection = database["Cases2"]
+
+query = {}
+projection = {}
+projection["occurred_at"] = u"$occurred_at"
+projection["confirmed_case"] = u"$confirmed_case"
+projection["_id"] = 0
+
+sort = [ (u"confirmed_case", -1) ]
+
+cursor = collection.find(query, projection = projection, sort = sort, limit = 10)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 2
+We would like to know if a death toll of over 1000 has been recorded on any day as a result 
+of the coronavirus to date. Do not mention the affected countries.
+
+ANSWER
+SQL QUERIES
+SELECT DISTINCT ca.occurred_at, ca.death_toll 
+FROM Cases ca
+WHERE ca.death_toll  > 1000
+ORDER BY ca.death_toll DESC
+
+MONGO DB QUERIES
+database = client["Covid"]
+collection = database["Cases2"]
+
+query = {}
+query["death_toll"] = {
+    u"$gt": u"1000"
+}
+
+
+projection = {}
+projection["occurred_at"] = u"$occurred_at"
+projection["death_toll"] = u"$death_toll"
+projection["_id"] = 0
+
+sort = [ (u"death_toll", -1) ]
+
+cursor = collection.find(query, projection = projection, sort = sort)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 3
+Return a record of all coronavirus affected countries with the keyword ‘United’.
+
+ANSWER
+SQL QUERIES
+select name from Countries
+Where name LIKE '%United%'
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Countries"]
+
+query = {}
+query["name"] = Regex(u"^.*United.*$", "i")
+
+projection = {}
+projection["name"] = u"$name"
+projection["_id"] = 0
+
+cursor = collection.find(query, projection = projection)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 4
+Return a record of all confirmed coronavirus cases contained on the 1st and 31st of October, 
+2020.
+
+ANSWER
+SQL QUERIES
+select * from Cases
+where occurred_at BETWEEN '10/01/2020' AND '10/31/2020'
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+
+query = {}
+query["occurred_at"] = {
+    u"$gte": u"10/01/2020",
+    u"$lte": u"10/31/2020"
+}
+
+
+cursor = collection.find(query)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 5
+Return a record of all coronavirus affected countries with names outside the 
+United Kingdom, Canada, and the United States.
+
+ANSWER
+SQL QUERIES
+select * from Countries
+where name NOT IN ('United Kingdom', 'Canada', 'United States')
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Countries"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+query = {}
+query["name"] = {
+    u"$not": {
+        u"$in": [
+            u"United Kingdom",
+            u"Canada",
+            u"United States"
+        ]
+    }
+}
+
+
+cursor = collection.find(query)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 6
+Return a record of all coronavirus affected countries without the keyword ‘United’.
+
+ANSWER
+SQL QUERIES
+select * from Countries
+where name NOT LIKE '%United%'
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Countries"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+query = {}
+query["name"] = {
+    u"$not": Regex(u"^.*United.*$", "i")
+}
+
+
+cursor = collection.find(query)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 7
+Return a record of all coronavirus affected countries with names within the United Kingdom, 
+United Arab Emirates, United Republic of Tanzania, United States Virgin Islands and the 
+United States of America and select only countries with ids between 199 and 201.
+
+ANSWER
+SQL QUERIES
+SELECT *
+FROM countries
+WHERE  name IN ('United_Kingdom', 'United_Arab_Emirates',    
+               'United_Republic_of_Tanzania',  
+               'United_States_Virgin_Islands', 
+               'United_States_of_America') AND id BETWEEN 199 AND 201
+ORDER BY id DESC;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Countries"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+query = {}
+query["name"] = {
+    u"$in": [
+        u"United_Kingdom",
+        u"United_Arab_Emirates",
+        u"United_Republic_of_Tanzania",
+        u"United_States_Virgin_Islands",
+        u"United_States_of_America"
+    ]
+}
+
+query["id"] = {
+    u"$gte": u"199",
+    u"$lte": u"201"
+}
+
+
+sort = [ (u"id", -1) ]
+
+cursor = collection.find(query, sort = sort)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 8
+Return a record of all the death toll associated with the United States of America to date.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, ca.death_toll, ca.occurred_at
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE co.name = 'United_States_of_America';
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases2"]
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases2": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases2.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.name": u"United_States_of_America"
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Cases2.death_toll": u"$Cases2.death_toll",
+            u"Cases2.occurred_at": u"$Cases2.occurred_at",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 9
+Return the countries with coronavirus confirmed cases to date in descending order.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, ca.confirmed_case, ca.occurred_at
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+ORDER BY co.name DESC;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases2"]
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases2": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases2.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"Countries.name", -1) ])
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Cases2.confirmed_case": u"$Cases2.confirmed_case",
+            u"Cases2.occurred_at": u"$Cases2.occurred_at",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 10
+Return the record of coronavirus confirmed cases and deaths with countries starting with the letter ‘C’ 
+in ascending order to date.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, ca.confirmed_case, ca.death_toll, ca.occurred_at
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE co.name LIKE 'C%'
+ORDER BY co.name;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases2"]
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases2": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases2.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.name": Regex(u"^C.*$", "i")
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"Countries.name", 1) ])
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Cases2.confirmed_case": u"$Cases2.confirmed_case",
+            u"Cases2.death_toll": u"$Cases2.death_toll",
+            u"Cases2.occurred_at": u"$Cases2.occurred_at",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+Question 11
+Return the coronavirus confirmed cases greater than 5000 and death toll greater 
+than 500 with associated countries.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, ca.confirmed_case, ca.death_toll, ca.occurred_at
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE ca.confirmed_case > 5000 AND ca.death_toll > 500;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Cases.confirmed_case": {
+                u"$gt": u"5000"
+            },
+            u"Cases.death_toll": {
+                u"$gt": u"500"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Cases.confirmed_case": u"$Cases.confirmed_case",
+            u"Cases.death_toll": u"$Cases.death_toll",
+            u"Cases.occurred_at": u"$Cases.occurred_at",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 12
+Return the total number of coronavirus confirmed cases and deaths since the inception of the disease in the world.
+
+ANSWER
+SQL QUERIES
+SELECT SUM(ca.confirmed_case) Confimed_cases, 
+       SUM(ca.death_toll) Deaths
+FROM cases ca;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$group": {
+            u"_id": {},
+            u"SUM(confirmed_case)": {
+                u"$sum": u"$confirmed_case"
+            },
+            u"SUM(death_toll)": {
+                u"$sum": u"$death_toll"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"SUM(confirmed_case)": u"$SUM(confirmed_case)",
+            u"SUM(death_toll)": u"$SUM(death_toll)",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 13
+Return an average of the coronavirus death toll for France.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, AVG(ca.death_toll) toll_average
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE co.name = 'France'
+GROUP BY co.name
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.name": u"France"
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"AVG(Cases\u1390death_toll)": {
+                u"$avg": u"$Cases.death_toll"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"AVG(Cases\u1390death_toll)": u"$AVG(Cases\u1390death_toll)",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 14
+Return a record of 10 countries with the highest average number of the coronavirus death toll
+
+ANSWER
+SQL QUERIES
+SELECT TOP 10 co.name, AVG(ca.death_toll) toll_average
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+GROUP BY co.name
+ORDER BY toll_average DESC
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"AVG(Cases\u1390death_toll)": {
+                u"$avg": u"$Cases.death_toll"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"AVG(Cases.death_toll)": u"$AVG(Cases\u1390death_toll)",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"AVG(Cases.death_toll)", -1) ])
+    }, 
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Countries.name": u"$Countries.name",
+            u"AVG(Cases\u1390death_toll)": u"$AVG(Cases.death_toll)"
+        }
+    }, 
+    {
+        u"$limit": 10
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 15
+Return the highest number of coronavirus cases ever in China
+
+ANSWER
+SQL QUERIES
+SELECT co.name, MAX(ca.confirmed_case) 
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE co.name = 'China'
+GROUP BY co.name
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.name": u"China"
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"MAX(Cases\u1390confirmed_case)": {
+                u"$max": u"$Cases.confirmed_case"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"MAX(Cases\u1390confirmed_case)": u"$MAX(Cases\u1390confirmed_case)",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 16
+Return the lowest number of coronavirus cases ever in the United States of America(USA).
+
+ANSWER
+SQL QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.name": u"United_States_of_America"
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"MIN(Cases\u1390confirmed_case)": {
+                u"$min": u"$Cases.confirmed_case"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"MIN(Cases\u1390confirmed_case)": u"$MIN(Cases\u1390confirmed_case)",
+            u"_id": 0
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+
+Question 17
+Return a record of all coronavirus affected countries with their highest number of cases in descending order.
+
+ANSWER
+SQL QUERIES
+SELECT co.name, MAX(ca.confirmed_case) confirmed_case
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+GROUP BY co.name
+ORDER BY confirmed_case DESC;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"MAX(Cases\u1390confirmed_case)": {
+                u"$max": u"$Cases.confirmed_case"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"MAX(Cases.confirmed_case)": u"$MAX(Cases\u1390confirmed_case)",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"MAX(Cases.confirmed_case)", -1) ])
+    }, 
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Countries.name": u"$Countries.name",
+            u"MAX(Cases\u1390confirmed_case)": u"$MAX(Cases.confirmed_case)"
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+
+Question 18
+Return a record of all coronavirus affected countries with their highest number of death tolls ever in 
+descending order.
+
+ANSWER
+SQL QUERIES 
+SELECT co.name, MAX(ca.death_toll) death_toll
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+GROUP BY co.name
+ORDER BY death_toll DESC;
+
+MONGODB QUERIES
+
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"MAX(Cases\u1390death_toll)": {
+                u"$max": u"$Cases.death_toll"
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"MAX(Cases.death_toll)": u"$MAX(Cases\u1390death_toll)",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"MAX(Cases.death_toll)", -1) ])
+    }, 
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Countries.name": u"$Countries.name",
+            u"MAX(Cases\u1390death_toll)": u"$MAX(Cases.death_toll)"
+        }
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+Question 19
+Return a record of coronavirus affected countries and their population in descending order.
+
+ANSWER
+SQL QUERIES
+SELECT DISTINCT co.name, co.population_count 
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+ORDER BY population_count DESC;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Countries.population_count": u"$Countries.population_count",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": None,
+            u"distinct": {
+                u"$addToSet": u"$$ROOT"
+            }
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$distinct",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$replaceRoot": {
+            u"newRoot": u"$distinct"
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"Countries.population_count", -1) ])
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
+
+Question 20
+Return a record of coronavirus affected countries with a population of above 200,000,000.
+
+ANSWER
+SQL QUERIES
+SELECT DISTINCT co.name, co.population_count 
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+WHERE co.population_count > 200000000
+ORDER BY population_count  DESC;
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$match": {
+            u"Countries.population_count": {
+                u"$gt": Int64(200000000)
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$Countries.name",
+            u"Countries.population_count": u"$Countries.population_count",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": None,
+            u"distinct": {
+                u"$addToSet": u"$$ROOT"
+            }
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$distinct",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$replaceRoot": {
+            u"newRoot": u"$distinct"
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"Countries.population_count", -1) ])
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+Question 21
+Return a table of coronavirus affected countries with their population and those with a number of daily 
+records(count) greater than 90. In all, select only five countries with records greater than 100.
+
+ANSWER
+SQL QUERIES
+SELECT TOP 5 co.name, co.population_count population_count, COUNT(*) daily_records
+FROM cases ca
+JOIN countries co
+ON co.id = ca.country_id
+GROUP BY co.name, co.population_count
+HAVING COUNT(*) > 100
+ORDER BY daily_records DESC
+
+MONGODB QUERIES
+database = client["Covid"]
+collection = database["Cases"]
+
+# Created with Studio 3T, the IDE for MongoDB - https://studio3t.com/
+
+pipeline = [
+    {
+        u"$project": {
+            u"_id": 0,
+            u"Cases": u"$$ROOT"
+        }
+    }, 
+    {
+        u"$lookup": {
+            u"localField": u"Cases.country_id",
+            u"from": u"Countries",
+            u"foreignField": u"id",
+            u"as": u"Countries"
+        }
+    }, 
+    {
+        u"$unwind": {
+            u"path": u"$Countries",
+            u"preserveNullAndEmptyArrays": False
+        }
+    }, 
+    {
+        u"$group": {
+            u"_id": {
+                u"Countries\u1390population_count": u"$Countries.population_count",
+                u"Countries\u1390name": u"$Countries.name"
+            },
+            u"COUNT(*)": {
+                u"$sum": 1
+            }
+        }
+    }, 
+    {
+        u"$project": {
+            u"Countries.name": u"$_id.Countries\u1390name",
+            u"Countries.population_count": u"$_id.Countries\u1390population_count",
+            u"COUNT(*)": u"$COUNT(*)",
+            u"_id": 0
+        }
+    }, 
+    {
+        u"$match": {
+            u"COUNT(*)": {
+                u"$gt": Int64(100)
+            }
+        }
+    }, 
+    {
+        u"$sort": SON([ (u"COUNT(*)", -1) ])
+    }, 
+    {
+        u"$limit": 5
+    }
+]
+
+cursor = collection.aggregate(
+    pipeline, 
+    allowDiskUse = True
+)
+try:
+    for doc in cursor:
+        print(doc)
+finally:
+    client.close()
+
+
