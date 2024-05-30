@@ -2,6 +2,8 @@
 
 This project utilizes Apache Airflow to orchestrate and automate the process of extracting data from Twitter using the Twitter API. The extracted data is then subjected to various transformations, including preprocessing, removal of unwanted characters, and removal of banned words. Finally, the transformed data is loaded into a target destination. As this project is about twitter analytics, further tasks includes the conversion of the data into unigrams and biagrams with natural language processing NLTK to further understand the frequencies of words and their impact. The top 20 unigrams and biagrams are visualized with barchart and wordcloud
 
+![alt text](dataflow.jpg)
+
 ## Project Structure
 
 The project is organized into the following components:
