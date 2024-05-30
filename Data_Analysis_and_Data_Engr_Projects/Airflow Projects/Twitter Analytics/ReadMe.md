@@ -23,18 +23,15 @@ Before running this project, make sure you have the following prerequisites inst
 ## Setup
 
 1. Clone this repository to your local machine.
-2. Install the required Python packages by running the following command:
-    ```
-    pip install -r requirements.txt
-    ```
-3. Configure your Twitter API credentials by updating the `config.py` file with your own credentials.
-4. Start the Airflow scheduler and web server by running the following command:
+
+2. Configure your Twitter API credentials by updating the `config.py` file with your own credentials.
+3. Start the Airflow scheduler and web server by running the following command:
     ```
     airflow webserver -p 8080
     airflow scheduler
     ```
-5. Access the Airflow web interface by navigating to `http://localhost:8080` in your web browser.
-6. Enable and trigger the DAG defined in the `dags/` directory to start the data extraction and transformation process.
+4. Access the Airflow web interface by navigating to `http://localhost:8080` in your web browser.
+5. Enable and trigger the DAG defined in the `dags/` directory to start the data extraction and transformation process.
 
 ## Usage
 
