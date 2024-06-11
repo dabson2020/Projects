@@ -9,7 +9,7 @@ The Microsoft Fabric tools utilized in this project are:
 - Power BI: A dashboard is created to visualize the analysis, including the sentiments of the tweets.
 - Data Activator: Used to set alerts and trigger an email when a condition is met.
 
-![alt text](<twitter microsoft fabric.jpg>)
+![alt text](<twitter microsoft fabric.png>)
 
 ### Data
 A total of 13,164 Twitter data were extracted using the Twitter API. These tweets were created by 342 unique users in April and May of 2023. With Microsoft Fabric, this data went through a series of data processing steps, including data cleaning, data processing, tokenization, and sentiment analysis.
@@ -29,7 +29,7 @@ The sentiments of the tweets are determined using a machine learning sentiment m
 ### Orchestration
 All these processes are orchestrated using a data pipeline, which automates the process on a set schedule. Below is a visual representation of the complete orchestrated pipeline.
 
-![Orchestrated Pipeline](microsoft_fabric_project.png)
+![alt text](<microsoft fabric project.png>)
 
 ### Visualization
 A Power BI dashboard is created to visualize the analysis. The dashboard provides a comprehensive view of the project's findings.
