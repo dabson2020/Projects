@@ -3,11 +3,11 @@ There are different tools for performing data analytics. In this project, we com
 
 The Microsoft Fabric tools utilized in this project are:
 
-- Data Factory: Used to extract and copy data from Twitter using the Twitter API. The extracted data is written into a lakehouse database as a delta table.
-- Synapse Data Engineering: Used to clean the Twitter data. The cleaned tweets are written into the lakehouse database as a delta table.
-- Synapse Data Science: Used for sentiment analysis and tokenization of tweets into unigrams and bigrams. The results are written as delta tables in the lakehouse database.
-- Power BI: A dashboard is created to visualize the analysis, including the sentiments of the tweets.
-- Data Activator: Used to set alerts and trigger an email when a condition is met.
+- **Data Factory** : Used to extract and copy data from Twitter using the Twitter API. The extracted data is written into a lakehouse database as a delta table.
+- **Synapse Data Engineering**: Used to clean the Twitter data. The cleaned tweets are written into the lakehouse database as a delta table.
+- **Synapse Data Science**: Used for sentiment analysis and tokenization of tweets into unigrams and bigrams. The results are written as delta tables in the lakehouse database.
+- **Power BI**: A dashboard is created to visualize the analysis, including the sentiments of the tweets.
+- **Data Activator**: Used to set alerts and trigger an email when a condition is met.
 
 ![alt text](<twitter microsoft fabric.png>)
 
