@@ -1,0 +1,10 @@
+SELECT
+    race_id,
+    race_year,
+    round,
+    circuit_id,
+    race_name,
+    race_date,
+    time
+FROM
+    {{source('formula1','races')}}

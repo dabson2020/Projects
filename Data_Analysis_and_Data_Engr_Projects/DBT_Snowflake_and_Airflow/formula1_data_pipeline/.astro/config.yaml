@@ -1,0 +1,6 @@
+project:
+    name: new-car-dag
+webserver:
+    port: 8088
+postgres:
+    port: 5439

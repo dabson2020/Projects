@@ -1,0 +1,20 @@
+SELECT
+    result_id,
+    race_id,
+    driver_id,
+    constructor_id,
+    number,
+    grid,
+    position,
+    position_order,
+    points,
+    laps,
+    time,
+    milliseconds,   
+    fastest_lap,
+    rank,
+    fastest_lap_time,
+    fastest_lap_speed,
+    status_id
+FROM
+    {{source('formula1','results')}}

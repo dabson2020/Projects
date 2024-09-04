@@ -1,0 +1,82 @@
+version: 2
+
+sources:
+  - name: formula1
+    database: formula1_db
+    schema: formula1_schema
+    tables:
+      - name: circuits
+        columns:
+          - name: circuit_id
+            tests:
+              - not_null
+              - unique
+      - name: drivers
+        columns:
+          - name: driver_id
+            tests:
+              - not_null
+              - unique
+      - name: constructors
+        columns:
+          - name: constructor_id  
+            tests:
+              - not_null
+              - unique
+      - name: races
+        columns:  
+          - name: race_id
+            tests:
+              - relationships:
+                  to: sources('formula1','circuits')
+                  field: circuit_id
+            
+      - name: pitstops
+        columns:
+          - name: stop
+            tests:
+              - relationships:
+                  to: sources('formula1','drivers')
+                  field: driver_id
+              - relationships:
+                  to: sources('formula1','races') 
+                  field: race_id
+
+      - name: laptimes
+        columns: 
+        - name: lap
+          tests:
+            - relationships:
+                to: sources('formula1','drivers')
+                field: driver_id
+            - relationships:
+                to: sources('formula1','races') 
+                field: race_id
+      
+      - name: results
+        columns: 
+          - name: result_id
+            tests:
+            - relationships:
+                to: sources('formula1','drivers')
+                field: driver_id
+            - relationships:
+                to: sources('formula1','constructor')
+                field: constructor_id
+            - relationships:
+                to: sources('formula1','races')
+                field: race_id
+      
+      - name: qualifying
+        columns:
+          - name: qualify_id
+            tests:
+            - relationships:
+                to: sources('formula1','drivers')
+                field: driver_id
+            - relationships:
+                to: sources('formula1','constructor')
+                field: constructor_id
+            - relationships:
+                to: sources('formula1','races')
+                field: race_id
