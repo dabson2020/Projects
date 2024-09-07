@@ -2,7 +2,8 @@
 
 This project aims to analyze HR data using Tableau and Power BI to gain insights into various key performance indicators (KPIs) related to attrition, education, job satisfaction, and gender.
 
-
+## KPIs: 
+In this section, we counted the number of employees, the attrition count, attrition rate, active employees and average age of employees.
 
 ## Attrition by Department
 
