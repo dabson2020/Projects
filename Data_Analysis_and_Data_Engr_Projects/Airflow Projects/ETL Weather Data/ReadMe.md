@@ -2,21 +2,51 @@
 
 This project utilizes Apache Airflow and Dbt to orchestrate and automate the availability of Calgary weather data from an Open Weather API, extract the data, transform and load the data in MySQL, and visualize the weather information with Tableau. The data extraction is scheduled hourly, and the resulting files are concatenated into a single CSV file. The data is also loaded into a MySQL database in parallel. The database is connected to Tableau to visualize the weather information.
 
-![alt text](Calgary_weather_API.png)
+![alt text](weather_data.png)
 
 ## Project Overview
 
-The main goal of this project is to automate the process of fetching weather data from an API (Open weather API) and preparing it for further analysis. The project follows the Extract, Transform, Load (ETL) process to ensure the data is in a usable format.
+The main goal of this project is to automate the process of fetching weather data from an API (Open weather API) and preparing it for further analysis. The project follows the Extract, Transform, Load (ETL) process to ensure the data is in a usable format. The data is loaded in a Database (MySQL) and visualized with Tableau
 
 ## Workflow
 
-1. **Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (daily in this case). The extracted data includes various weather parameters such as temperature, humidity, and precipitation.
+1. **Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (hourly in this case). The extracted data includes various weather parameters such as temperature, humidity, cloud description, wind speed, precipitation, and other information
 
-2. **Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units, or aggregating data points.
+2. **Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units from Fahenheit to Celsius, or aggregating data points.
 
-3. **Data Storage**: The transformed data is stored as CSV files in a designated directory. Each CSV file represents a specific time period or location.
+3. **Data Storage**: The transformed data is stored in two formats.
+    - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
+    The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
+4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights.
 
-4. **Concatenation**: Finally, Airflow triggers a task to concatenate all the CSV files into a single file. This consolidated file can be used for further analysis or visualization.
+## NOTE
+When running the airflow, the following errors can be fixed:
+    - port already in use: If port number in use is 8080, write code 'sudo lsof -i :8080.
+    If a pid number is provided, kill the pid with 'kill -9 <pid>
+    - if working on windows with WSL Ubuntu, to connect to MySQL bench or Tableau, there is need to change the bind address in order to connect remotely. To do this, follow these steps:
+
+    sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+    Find bind-address = 127.0.0.1 and change is to 0.0.0.0
+
+    Restart MySQL
+    - sudo service mysql restart
+    Create MySQL user that can connect remotely
+
+    - sudo mysql -u root -p
+    Write the query
+    CREATE USER 'new_user'@'%' IDENTIFIED BY 'password';  ## replace 'new_user' and 'password' with yours
+    GRANT ALL PRIVILEGES ON *.* 'new_user'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+    exit MySQL
+    In Ubuntu, get the hostname IP address
+    hostname -I
+
+    With these information, you can connect ubuntu's MySQL with MySQL Bench in windows and Tableau. When connecting, use the hostname IP address ad the hostname, the new user and password for username and password.
+
+    
+
+
 
 ## Benefits
 
