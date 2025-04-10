@@ -46,9 +46,9 @@ When running the airflow, the following errors can be fixed:
 
     Here is the airflow graph:
 
-    ![alt text](cal_weather_dag1.png)
+   
 
-
+ ![alt text](cal_weather_dag1.png)
 
 ## Benefits
 
