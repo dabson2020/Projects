@@ -1,6 +1,6 @@
-# ETL For Calgary Weather Data with Airflow
+# ETL Data Analysis for Calgary Weather Data with Airflow, MySQL, and Tableau
 
-This project utilizes Apache Airflow to orchestrate and automate the availability of Calgary weather data from an API. The data is extracted, transformed, and stored as CSV files. Finally, all the CSV files are concatenated into a single file for further anlaysis and storage in the cloud (AWS S3, Aurora, Azure SQL, etc) or on-premise (MYSQL, MSSQL or Postgres Database)
+This project utilizes Apache Airflow and Dbt to orchestrate and automate the availability of Calgary weather data from an Open Weather API, extract the data, transform and load the data in MySQL, and visualize the weather information with Tableau. The data extraction is scheduled hourly, and the resulting files are concatenated into a single CSV file. The data is also loaded into a MySQL database in parallel. The database is connected to Tableau to visualize the weather information.
 
 ![alt text](Calgary_weather_API.png)
 
