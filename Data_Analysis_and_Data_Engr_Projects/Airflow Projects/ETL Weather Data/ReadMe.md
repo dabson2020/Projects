@@ -44,7 +44,9 @@ When running the airflow, the following errors can be fixed:
 
     With these information, you can connect ubuntu's MySQL with MySQL Bench in windows and Tableau. When connecting, use the hostname IP address ad the hostname, the new user and password for username and password.
 
-    
+    Here is the airflow graph:
+
+    ![alt text](cal_weather_dag1.png)
 
 
 
@@ -62,7 +64,18 @@ To get started with this project, follow the steps below:
 
 1. Install Apache Airflow and set up the necessary dependencies.
 
-2. Configure the Airflow DAG (Directed Acyclic Graph) to define the workflow and tasks.
+2. Configure the Airflow DAG (Directed Acyclic Graph) to define the workflow and tasks.Here, the tasks are
+ - is_weather_data_available: To get that the API is available for data extraction
+ - get_weather_data: Used to get the required data
+ - transform_load_weather_data: a comprehensive python code is written to transform the data
+ - concat_data: Each file for each duration is concatenated and sorted with the latest time in descending order 
+ - load_data: Data is loaded as single CSV file
+ - load_data_to_mysql: Data is loaded into MySQL Database
+
+ The dependencies are defined as below:
+
+- is_weather_data_available >> get_weather_data >> transform_load_weather_data >> concat_data >> load_data
+- concat_data >> load_data_to_mysql
 
 3. Implement the data extraction, transformation, and storage tasks using appropriate Python libraries and APIs.
 
@@ -72,4 +85,4 @@ For detailed instructions and code examples, refer to the project documentation.
 
 ## Conclusion
 
-By leveraging Apache Airflow, this project provides a robust and automated solution for fetching, transforming, and storing weather data. The resulting CSV files can be easily analyzed or integrated into other data pipelines for further processing.
+By leveraging Apache Airflow, this project provides a robust and automated solution for fetching, transforming, and storing and visualizing weather data. 
