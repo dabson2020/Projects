@@ -18,6 +18,8 @@ The main goal of this project is to automate the process of fetching weather dat
     - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
     The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
 4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
+    - The tableau dashboard is shown below:
+      ![alt text](tableau_open_weather_data.png)
 <<<<<<< HEAD
     - Here is the Tableau dashboard
       ![alt text](tableau_open_weather_data.png)
