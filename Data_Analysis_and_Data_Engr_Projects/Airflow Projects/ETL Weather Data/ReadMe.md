@@ -18,8 +18,7 @@ The main goal of this project is to automate the process of fetching weather dat
     - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
     The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
 4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
-    - Here is the link to Tableau viz (https://public.tableau.com/app/profile/adeola.ayandeyi/viz/Openweatheranalytics/WeatherDataInsightsDashboard)
-
+    - 
 ## NOTE
 When running the airflow, the following errors can be fixed:
     - port already in use: If port number in use is 8080, write code 'sudo lsof -i :8080.
