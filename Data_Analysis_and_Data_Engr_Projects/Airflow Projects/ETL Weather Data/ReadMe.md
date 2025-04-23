@@ -6,26 +6,26 @@ This project utilizes Apache Airflow and Dbt to orchestrate and automate the ava
 
 ## Project Overview
 
-The main goal of this project is to automate the process of fetching weather data from an API (Open weather API) and preparing it for further analysis. The project follows the Extract, Transform, Load (ETL) process to ensure the data is in a usable format. The data is loaded in a Database (MySQL) and visualized with Tableau
+The main goal of this project is to automate the process of fetching weather data from an API (Open Weather API) and preparing it for further analysis. The project follows the Extract, Transform, Load (ETL) process to ensure the data is in a usable format. The data is loaded into a Database (MySQL) and visualized with Tableau
 
 ## Workflow
 
-1. **###Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (hourly in this case). The extracted data includes various weather parameters such as temperature, humidity, cloud description, wind speed, precipitation, and other information
+1. **Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (hourly in this case). The extracted data includes various weather parameters such as temperature, humidity, cloud description, wind speed, precipitation, and other information
 
-2. **###Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units from Fahenheit to Celsius, or aggregating data points.
+2. **Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units from Fahrenheit to Celsius, or aggregating data points.
 
-3. **###Data Storage**: The transformed data is stored in two formats.
+3. **Data Storage**: The transformed data is stored in two formats.
     - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
     The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
-4. **###Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
+4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
     - The tableau dashboard is shown below:
       ![alt text](tableau_open_weather_data.png)
       
 ## NOTE
 When running the airflow, the following errors can be fixed:
-    - port already in use: If port number in use is 8080, write code 'sudo lsof -i :8080.
+    - port already in use: If the port number in use is 8080, write code 'sudo lsof -i :8080.
     If a pid number is provided, kill the pid with 'kill -9 <pid>
-    - if working on windows with WSL Ubuntu, to connect to MySQL bench or Tableau, there is need to change the bind address in order to connect remotely. To do this, follow these steps:
+    - If working on Windows with WSL Ubuntu, to connect to MySQL bench or Tableau, there is a need to change the bind address in order to connect remotely. To do this, follow these steps:
 
     sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
@@ -44,7 +44,7 @@ When running the airflow, the following errors can be fixed:
     In Ubuntu, get the hostname IP address
     hostname -I
 
-    With these information, you can connect ubuntu's MySQL with MySQL Bench in windows and Tableau. When connecting, use the hostname IP address ad the hostname, the new user and password for username and password.
+    With these information, you can connect Ubuntu's MySQL with MySQL Bench in Windows and Tableau. When connecting, use the hostname IP address ad the hostname, the new user and password for the username and password.
 
     Here is the airflow graph:
 
@@ -66,13 +66,13 @@ To get started with this project, follow the steps below:
 
 1. Install Apache Airflow and set up the necessary dependencies.
 
-2. Configure the Airflow DAG (Directed Acyclic Graph) to define the workflow and tasks.Here, the tasks are
- - is_weather_data_available: To get that the API is available for data extraction
+2. Configure the Airflow DAG (Directed Acyclic Graph) to define the workflow and tasks. Here, the tasks are
+ - is_weather_data_available: To check if the API is available for data extraction
  - get_weather_data: Used to get the required data
- - transform_load_weather_data: a comprehensive python code is written to transform the data
+ - transform_load_weather_data: A comprehensive Python code is written to transform the data
  - concat_data: Each file for each duration is concatenated and sorted with the latest time in descending order 
- - load_data: Data is loaded as single CSV file
- - load_data_to_mysql: Data is loaded into MySQL Database
+ - load_data: Data is loaded as a single CSV file
+ - load_data_to_mysql: Data is loaded into the MySQL Database
 
  The dependencies are defined as below:
 
