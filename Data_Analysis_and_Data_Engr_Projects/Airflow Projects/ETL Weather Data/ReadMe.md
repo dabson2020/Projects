@@ -10,23 +10,18 @@ The main goal of this project is to automate the process of fetching weather dat
 
 ## Workflow
 
-1. **Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (hourly in this case). The extracted data includes various weather parameters such as temperature, humidity, cloud description, wind speed, precipitation, and other information
+1. **###Data Extraction**: Airflow triggers a task to fetch weather data from the API at regular intervals (hourly in this case). The extracted data includes various weather parameters such as temperature, humidity, cloud description, wind speed, precipitation, and other information
 
-2. **Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units from Fahenheit to Celsius, or aggregating data points.
+2. **###Data Transformation**: The extracted data is then transformed to ensure consistency and compatibility. This may involve cleaning the data, converting units from Fahenheit to Celsius, or aggregating data points.
 
-3. **Data Storage**: The transformed data is stored in two formats.
+3. **###Data Storage**: The transformed data is stored in two formats.
     - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
     The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
-4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
+4. **###Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. 
     - The tableau dashboard is shown below:
       ![alt text](tableau_open_weather_data.png)
-<<<<<<< HEAD
-    - Here is the Tableau dashboard
-      ![alt text](tableau_open_weather_data.png)
 
-=======
-    - 
->>>>>>> 4b26f86d19538806fee1b9ba188e817f5fe8ef7f
+
 ## NOTE
 When running the airflow, the following errors can be fixed:
     - port already in use: If port number in use is 8080, write code 'sudo lsof -i :8080.
