@@ -1,4 +1,4 @@
-# ETL Data Analysis for Calgary Weather Data with Airflow, MySQL, and Tableau
+# ETL Data Analysis for Calgary Weather Data with Airflow, MySQL, Git API and Tableau
 
 This project utilizes Apache Airflow and Dbt to orchestrate and automate the availability of Calgary weather data from an Open Weather API, extract the data, transform and load the data in MySQL, and visualize the weather information with Tableau. The data extraction is scheduled hourly, and the resulting files are concatenated into a single CSV file. The data is also loaded into a MySQL database in parallel. The database is connected to Tableau to visualize the weather information.
 
@@ -16,10 +16,13 @@ The main goal of this project is to automate the process of fetching weather dat
 
 3. **Data Storage**: The transformed data is stored in two formats.
     - Each file extracted represents a specific time period (hourly) and is saved in csv format. All the files are concatenated into a single CSV file in a designated directory.
-    The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
+    - The data are also loaded into MySQL database concurrently. With unique time record, the data loaded is unique and there are no duplicates.
+    - The project is updated to load data into GitHub with Git API, which is available for public use.  
+    
 4. **Visualization**: Finally, MySQL Database is connected to Tableau to visualize the data and extract insights. The dashboard is updated in realtime.
     - The tableau dashboard is shown below:
       ![alt text](tableau_open_weather_data.png)
+    - The Git API can also be connected to Tableau and/or Power BI to visualize the data.
 
 ## NOTE
 When running the airflow, the following errors can be fixed:
