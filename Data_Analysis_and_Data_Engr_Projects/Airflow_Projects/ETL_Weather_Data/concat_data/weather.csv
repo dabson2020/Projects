@@ -1,4 +1,5 @@
 City,Description,Temperature_F,Feels_Like_F,Minimun_Temp_F,Maximum_Temp_F,Temperature_C,Feels_Like_C,Minimum_Temp_C,Maximum_Temp_C,Pressure,Humidty,Wind_Speed,Time_of_Record,Sunrise_Local_Time,Sunset_Local_Time
+Calgary,mist,54.16,53.51,53.02,55.65,12.31,11.95,11.68,13.14,1005,90,3.6,2025-06-20 09:58:06,2025-06-19 23:21:21,2025-06-20 15:54:36
 Calgary,moderate rain,55.4,54.77,53.6,56.32,13.0,12.65,12.0,13.51,1005,88,3.6,2025-06-20 08:54:35,2025-06-19 23:21:21,2025-06-20 15:54:36
 Calgary,overcast clouds,56.1,55.45,54.41,57.02,13.39,13.03,12.45,13.9,1006,86,4.63,2025-06-20 07:48:08,2025-06-19 23:21:21,2025-06-20 15:54:36
 Calgary,light rain,56.71,55.85,55.42,57.56,13.73,13.25,13.01,14.2,1006,80,2.57,2025-06-20 06:57:44,2025-06-19 23:21:21,2025-06-20 15:54:36
