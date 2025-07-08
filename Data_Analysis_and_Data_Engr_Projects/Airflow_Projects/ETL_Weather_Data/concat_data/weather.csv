@@ -1,4 +1,5 @@
 City,Description,Temperature_F,Feels_Like_F,Minimun_Temp_F,Maximum_Temp_F,Temperature_C,Feels_Like_C,Minimum_Temp_C,Maximum_Temp_C,Pressure,Humidty,Wind_Speed,Time_of_Record,Sunrise_Local_Time,Sunset_Local_Time
+Calgary,few clouds,88.74,86.0,85.95,90.64,31.52,30.0,29.97,32.58,1003,27,5.66,2025-07-08 09:56:59,2025-07-07 23:31:49,2025-07-08 15:50:43
 Calgary,clear sky,88.66,86.43,85.59,90.03,31.48,30.24,29.77,32.24,1004,30,2.88,2025-07-08 08:53:55,2025-07-07 23:31:49,2025-07-08 15:50:43
 Calgary,scattered clouds,86.29,83.89,84.56,87.66,30.16,28.83,29.2,30.92,1005,29,2.57,2025-07-08 07:57:40,2025-07-07 23:31:49,2025-07-08 15:50:43
 Calgary,scattered clouds,84.87,82.53,84.22,86.65,29.37,28.07,29.01,30.36,1006,28,0.0,2025-07-08 06:59:27,2025-07-07 23:31:49,2025-07-08 15:50:43
