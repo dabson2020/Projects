@@ -1,4 +1,5 @@
 City,Description,Temperature_F,Feels_Like_F,Minimun_Temp_F,Maximum_Temp_F,Temperature_C,Feels_Like_C,Minimum_Temp_C,Maximum_Temp_C,Pressure,Humidty,Wind_Speed,Time_of_Record,Sunrise_Local_Time,Sunset_Local_Time
+Calgary,overcast clouds,57.67,56.98,56.41,58.95,14.26,13.88,13.56,14.97,1012,82,4.63,2025-07-16 17:56:24,2025-07-15 23:40:29,2025-07-16 15:43:59
 Calgary,broken clouds,61.12,60.08,58.77,61.16,16.18,15.6,14.87,16.2,1013,67,4.63,2025-07-16 16:47:33,2025-07-15 23:40:29,2025-07-16 15:43:59
 Calgary,broken clouds,62.94,61.9,58.41,64.35,17.19,16.61,14.67,17.97,1012,63,7.72,2025-07-16 15:54:10,2025-07-15 23:40:29,2025-07-16 15:43:59
 Calgary,broken clouds,63.81,62.89,61.41,64.76,17.67,17.16,16.34,18.2,1011,64,8.75,2025-07-16 14:58:36,2025-07-15 23:40:29,2025-07-16 15:43:59
