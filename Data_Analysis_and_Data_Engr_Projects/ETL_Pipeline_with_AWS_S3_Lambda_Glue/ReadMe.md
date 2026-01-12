@@ -32,7 +32,7 @@ The following steps are performed:
  - Date visualization with Power BI
 
  The Architectual diagram of the project is seen below:
- C:\Users\adeol\Downloads\aws etl pipeline\aws_etl_drawio.mp4
+
 
  - Raw CSV filed are uploaded to the csv_raw_data S3 bucket, initiating the pipeline
  - An AWS Lambda function is automatically trigeered to read and preprocess the uploaded CSV file
@@ -43,6 +43,7 @@ The following steps are performed:
  - The csv_finak_data S3 bucket is connected to Power BI for data insights
 
  **IAM ROLES AND POLICIES**
+ 
   These are created to ensure proper permissions are given to lambda and glue. 
   - An IAM role is created for lamdda function. The AWS Service use Case here is lambda. The Permission Policies selected here are S3FullAccess to enable access to the S3 buckets and GlueServiceRole to enable access to AWS 
   Glue.
@@ -52,9 +53,11 @@ The following steps are performed:
   The following Steps are the details of the creation of this project:
 
   **STEP 1: CREATE THE S3 BUCKETS**
+  
   The 3 S3 buckets are created which are the csv_raw_data S3 bucket, csv_preporcessed_data bucket and the csv_final_data S3 bucket.
 
-  STEP 2: DATE INGESTION AND PREPROCESSING
+  **STEP 2: DATE INGESTION AND PREPROCESSING**
+  
   AWS Lambda: Lets you run code without thinking about server provisions. 
   - The lambda function is created from the scratch as a python code. the Basic Information is provided, the runtime which is Python3.14 is selected, For permission, the existing role 'lambda-S3-glue-role is selected and then the function is created. a lambda_function.py file is opened when the function code is written. 
   
