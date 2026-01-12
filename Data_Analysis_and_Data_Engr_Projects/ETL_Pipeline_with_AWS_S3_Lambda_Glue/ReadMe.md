@@ -9,15 +9,19 @@ This project is comprises of the storage, compute, ETL/Big data, Analytics and P
 Amazon S3: Used for scalable storage of raw and processed data, providing event-driven architecture capabilities with S3 even notifications. In this project, the raw_data bucket holds the csv files, the preprocessed_data_bucket holds that data that is preprocessed by the lambda functions and the final_data_bucket stored the transformed data by the glue job
 
 **COMPUTE**
+
 AWS Lambda: This service acts as a serverless compute layer, automatically triggered to preprocess and clean csv files upon uploas to S3
 
 **ETL/BIG DATA**
+
 AWS Glue provides ETL capabilities to extract, transform and load data into a usuable format for analysis
 
-**ANALYTICS**:
+**ANALYTICS**
+
 The final data in the S3 buscket is connected to a visualization tool which could be Power Bi, Tableau, Amazon Quicksight to visualize the data and provide insights for effective business decision.
 
 **IAM ROLES AND POLICIES**
+
 This service ensre secure access to S3, Lambda and AWS glue
 
 The following steps are performed:
