@@ -1,10 +1,10 @@
 ## **ETL DATA PIPELINE WITH AWS S3, AWS LAMBDA AND AWS GLUE**
 
 **INTRODUCTION**
-This project is comprises of the storage, compute, ETL/Big data, Analytics and Permissions
+- This project is comprises of the storage, compute, ETL/Big data, Analytics and Permissions
 
 **STORAGE**
-Amazon S3: Used for scalable storage of raw and processed data, providing event-driven architecture capabilities with S3 even notifications. In this project, the raw_data bucket holds the csv files, the preprocessed_data_bucket holds that data that is preprocessed by the lambda functions and the final_data_bucket stored the transformed data by the glue job
+- Amazon S3: Used for scalable storage of raw and processed data, providing event-driven architecture capabilities with S3 even notifications. In this project, the raw_data bucket holds the csv files, the preprocessed_data_bucket holds that data that is preprocessed by the lambda functions and the final_data_bucket stored the transformed data by the glue job
 
 **COMPUTE**
 AWS Lambda: This service acts as a serverless compute layer, automatically triggered to preprocess and clean csv files upon uploas to S3
