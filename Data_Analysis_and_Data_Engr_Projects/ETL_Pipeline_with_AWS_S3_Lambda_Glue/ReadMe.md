@@ -1,4 +1,4 @@
-##**ETL DATA PIPELINE WITH AWS S3, AWS LAMBDA AND AWS GLUE**
+## **ETL DATA PIPELINE WITH AWS S3, AWS LAMBDA AND AWS GLUE**
 
 **INTRODUCTION**
 This project is comprises of the storage, compute, ETL/Big data, Analytics and Permissions
