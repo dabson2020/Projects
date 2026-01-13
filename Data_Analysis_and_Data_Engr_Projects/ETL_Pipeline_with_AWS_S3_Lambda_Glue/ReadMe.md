@@ -32,8 +32,8 @@ The following steps are performed:
  - Date visualization with Power BI
 
  The Architectual diagram of the project is seen below:
+![aws_etl_drawio](https://github.com/user-attachments/assets/eccf8e7e-f248-4f35-894a-a435e2f9b46b)
 
-![aws_etl](https://github.com/user-attachments/assets/6c60fc9a-7aa5-40a7-911a-be7cae71b463)
 
 
 
