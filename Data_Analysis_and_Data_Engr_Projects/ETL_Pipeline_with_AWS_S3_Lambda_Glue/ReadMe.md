@@ -33,6 +33,9 @@ The following steps are performed:
 
  The Architectual diagram of the project is seen below:
 
+![aws_etl](https://github.com/user-attachments/assets/6c60fc9a-7aa5-40a7-911a-be7cae71b463)
+
+
 
  - Raw CSV filed are uploaded to the csv_raw_data S3 bucket, initiating the pipeline
  - An AWS Lambda function is automatically trigeered to read and preprocess the uploaded CSV file
