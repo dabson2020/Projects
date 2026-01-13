@@ -32,10 +32,8 @@ The following steps are performed:
  - Data Transformation with AWS Glue.
  - Date visualization with Power BI.
 
- The Architectural diagram of the project is seen below:
+ The architectural diagram of the project is seen below:
 ![aws_etl_drawio](https://github.com/user-attachments/assets/eccf8e7e-f248-4f35-894a-a435e2f9b46b)
-
-
 
 
  - Raw CSV filed are uploaded to the csv_raw_data S3 bucket, initiating the pipeline
