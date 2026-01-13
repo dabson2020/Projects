@@ -6,7 +6,7 @@ This project is comprises of the storage, compute, ETL/Big data, Analytics and P
 
 **STORAGE**
 
-Amazon S3: Used for scalable storage of raw and processed data, providing event-driven architecture capabilities with S3 even notifications. In this project, the raw_data bucket holds the csv files, the preprocessed_data_bucket holds that data that is preprocessed by the lambda functions and the final_data_bucket stored the transformed data by the glue job
+**Amazon S3** is used for scalable storage of raw and processed data, providing event-driven architecture capabilities with S3 even notifications. In this project, the raw_data bucket holds the csv files, the preprocessed_data_bucket holds that data that is preprocessed by the lambda functions and the final_data_bucket stored the transformed data by the glue job
 
 **COMPUTE**
 
