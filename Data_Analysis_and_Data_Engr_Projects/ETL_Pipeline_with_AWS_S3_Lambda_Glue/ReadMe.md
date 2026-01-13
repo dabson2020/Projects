@@ -60,6 +60,36 @@ The following steps are performed:
   
   AWS Lambda: Lets you run code without thinking about server provisions. 
   - The lambda function is created from the scratch as a python code. the Basic Information is provided, the runtime which is Python3.14 is selected, For permission, the existing role 'lambda-S3-glue-role is selected and then the function is created. a lambda_function.py file is opened when the function code is written. 
+
+  - Deploy the function. after which you will see 'Successfully update the function"
+
+  - Set up the S3 bucket to automatically trigger the lambda function whenever a new file is uploaded into the csv_raw_data S3 bucket. In the function, Add trigger -> Select Source -> Event Type -> select 'PUT" and 'All object create events" -> Prefix: raw/ (The folder inside the csv_raw_data bucket which the csv files are stored) -> suffix: .csv -> Acknowledge and Add.
+
+  **STEP 3: DATA TRANSFORMATION WITH AWS GLUE**
+
+  AWS Glue is a fully managed ETL service that helps to transform and move data between the storage layers. Here, the glue job is setup, we define the data catalog and execute transaformation on the preprocessed csv files.
+
+  **AWS Glue** helps to automate data prepartion and transformation.
+
+  **AWS Glue Data Catalog** is a centralized metadata repository that stores information about the datasets, making them easily searchable and accessible for analytics.
+
+  In this step, we create the Glue Data Catalog and the Glue crawler
+  - **Creating the Glue Data Catalog**: Add Database -> Give it a name and create. A Database is a logical container to organize the tables and metadata.
+  - **Create the Glue Crawler**: The crawler automatically checks the data and create the metadata.
+  Once the crawler is created, it will crawl data and create  a new crawler schema which will be available in the Glue Data Catalog.
+
+  **STEP 4: CREATE THE CONFIGURE THE GLUE JOB**
+
+  - Under the ETL jobs -> Select visual ETL -> cretae ETL job -> click visual ETL ->Select the  AWS Glue Data Catalog previously created-> select the database -> select the Table -> select the glue IAM Role.
+  -  Add the transform layer: Add node -> Transforms -> Select the type of transformtion based on business requirements.
+  - Add Target: Add node -> Targets -> Amazon S3 -> S3 Target location: csv_final_data -> format: csv -> compression type: GZIP-> Save -> Run.
+  - The final data, after trasnformation, is loaded in the csv_final_data bucket.
+
+  **STEP 5- DATA VISUALIZATION**
+
+  The final data in the csv_final_data S3 bucket is connected to Power BI and visualized for insight
+
+  
   
 
 
